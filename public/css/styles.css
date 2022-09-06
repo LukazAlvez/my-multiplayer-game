@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+h1{
+    text-align: center;
+}
+
+#screen-game{
+    display: flex;
+    justify-content: center;
+}
+
+#screen-game canvas{
+    border: 1px solid black;
+}
