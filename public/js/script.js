@@ -1,55 +1,78 @@
-var socket = io("http://localhost:3000");
+
+var socket = io();
 
 const canvas =document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+let listPlayer = document.getElementById('players')
+
 document.addEventListener("keydown", control)
 
 
-socket.on("setPosition", data=>{
-    console.log("setPosition....ok")
-    char = data
-} )
 
-let char;
+socket.on("players", data =>{
+    players = data;
+    id = socket.id
+    listPlayer.innerHTML = ""
+    players.map(p =>{
+        listPlayer.innerHTML += `<p>${p.id}</p>`
+    })
+})
 
-let usersConnected
+let players;
+let player;
+let id;
+let server
 
-console.log
-
-setInterval(game, 60);
+setInterval(game, 30);
 
 function game(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    socket.on('serverPosition', data=>{
-        usersConnected = data
+    socket.emit("setPosition", player)
+    socket.on("newPositions", positions =>{
+        server = positions
     })
-    socket.emit("charPosition", char)
+        
+    
+    if(players){
+        players.map((p)=>{
+            if(p.id === id){
+                player = p
+            }
+        })
+    }
+    if(server){
+        server.map((p)=>{
+            if(p.id === id){
+               return
+            }else{
+                draw(p.char.x, p.char.y, p.char.width, p.char.height, "black")
+            }
+        })
+    }
+
+    if(player){
+        draw(player.char.x, player.char.y, player.char.width, player.char.height, player.char.color)
+    }
+
     
 
-    if(char){
-        draw(char.px, char.py, char.width, char.height, char.color)
-    }    
-    if(usersConnected){
-        draw(usersConnected.px, usersConnected.py, usersConnected.width, usersConnected.height, "green")
+    if(player.char.x< 0){
+        player.char.x = 1
     }
-    
-
-    if(char.px < 0){
-        char.px = 1
+    if(player.char.y < 0){
+        player.char.y = 1
     }
-    if(char.py < 0){
-        char.py = 1
+    if(player.char.x> canvas.height){
+        player.char.x -= 20
     }
-    if(char.px > canvas.height){
-        char.px -= 20
-    }
-    if(char.py > canvas.width){
-        char.py -= 20
+    if(player.char.y > canvas.width){
+        player.char.y -= 20
     }
 
 }
+
 function draw(x, y, width, height, color){
     ctx.fillStyle = color;
     ctx.fillRect(x, y, width, height);
@@ -58,17 +81,16 @@ function draw(x, y, width, height, color){
 function control(event){
     switch(event.keyCode){
         case 37://left
-            char.px -= char.speed;
+            player.char.x -= player.char.speed;
             break;
         case 38://up
-            char.py -= char.speed;
+            player.char.y -= player.char.speed;
             break;
         case 39://right
-            char.px += char.speed;
+            player.char.x += player.char.speed;
             break;
         case 40://down
-            char.py += char.speed;
+            player.char.y += player.char.speed;
             break;
     }
 }
-
