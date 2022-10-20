@@ -61,7 +61,7 @@ io.on("connection", (socket) =>{
     })
 })
 
-server.listen(3000, () => {
+server.listen(port, () => {
     console.log("rodado na porta 3000")
 })
 
@@ -79,25 +79,4 @@ const verificarPlayer = (socket) => {
                 id: socket.id,
                 char: char() 
             })
-
-    // if(players.length === 0){
-    //     players.push({
-    //         id: socket.id,
-    //         char: char() 
-    //     })
-    //     console.log(`usuario ${socket.id} se conectou`)
-    //     return
-    // }else{
-    //     players.map(p =>{
-    //       if(p.id === socket.id ){
-    //         return
-    //       }else{
-    //         players.push({
-    //             id: socket.id,
-    //             char: char() 
-    //         })
-    //         console.log(`usuario ${socket.id} se conectou`)
-    //       }
-    //     })
-    // }
 }
