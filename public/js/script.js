@@ -1,14 +1,14 @@
 
 var socket = io();
 
-const canvas =document.getElementById("canvas");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 let listPlayer = document.getElementById('players')
 
 document.addEventListener("keydown", control)
 
-
+console.log(canvas.height, canvas.width)
 
 socket.on("players", data =>{
     players = data;
@@ -64,7 +64,7 @@ function game(){
     if(player.char.y < 0){
         player.char.y = 1
     }
-    if(player.char.x> canvas.height){
+    if(player.char.x > canvas.height){
         player.char.x -= 20
     }
     if(player.char.y > canvas.width){

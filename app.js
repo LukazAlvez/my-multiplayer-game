@@ -16,6 +16,8 @@ app.get("/", (req, res)=>{
     res.render('index.html')
 });
 
+const port = process.env.PORT || 3000
+
 
 function char () {
     return({
