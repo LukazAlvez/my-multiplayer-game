@@ -106,7 +106,7 @@ function draw(x, y, width, height, color){
     ctx.fillStyle = color;
     ctx.fillRect(x, y, width, height);
 }
-function drawText(text,color, x, y, font= "sans-serif", size = "10"){
+function drawText(text,color, x, y, font= "sans-serif", size = "13"){
     ctx.fillStyle = color
     ctx.font =` ${size}px ${font}`  
     ctx.fillText(text, x, y, canvas.width);
@@ -125,7 +125,7 @@ function message (){
         return
     }
     socket.emit('message', chat.value)
-    
+
     chat.value = ""
     
     setTimeout(()=>{myMessage = ''}, 5000)
