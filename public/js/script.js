@@ -196,7 +196,7 @@ function control(event) {
   }
 }
 
-function colision() {
+function colisionFood() {
   if (player && food) {
     let p = player.char;
     let f = food;
