@@ -20,14 +20,30 @@ const port = process.env.PORT || 3000
 
 
 function char () {
-    return({
-    x: Math.floor(Math.random()*501),
-    y: Math.floor(Math.random()*501),
-    width: 20,
-    height: 20,
-    speed: 20,
-    color: 'green'
-    })
+    return(
+        {
+            x: Math.floor(Math.random()*401),
+            y: Math.floor(Math.random()*401),
+            width: 20,
+            height: 20,
+            speed: 20,
+            score: 0,
+            name: 'Player',
+            color: 'green'
+        }
+    )
+}
+
+function food (){
+    return(
+        { 
+            x: Math.floor(Math.random()*400),
+            y: Math.floor(Math.random()*400),
+            width: 10,
+            height: 10,
+            color: "red"
+        }
+    )
 }
             
 
@@ -46,6 +62,7 @@ io.on("connection", (socket) =>{
                     if(p.id === positions.id){
                         p.char.x = positions.char.x;
                         p.char.y = positions.char.y
+                        p.char.name = positions.char.name
                     }
                 })
         }    
@@ -53,16 +70,21 @@ io.on("connection", (socket) =>{
     } )
 
 
+    socket.on("message", data => {
+        socket.broadcast.emit("messages", {message:data, id:socket.id})
+    })
+
+
     socket.on("disconnect", () =>{
         removePlayer(socket)
-        socket.broadcast.emit("players", players)
+        socket.broadcast.emit("newPositions", players)
         console.log(`usuario ${socket.id} se desconectou`)
-        console.log(players)
+        players.map(p => {console.log(p.id)})
     })
 })
 
 server.listen(port, () => {
-    console.log("rodado na porta 3000")
+    console.log("Servidor online...")
 })
 
 const removePlayer = (socket) => {
@@ -75,6 +97,7 @@ const removePlayer = (socket) => {
 }
 
 const verificarPlayer = (socket) => {
+    console.log(`usuario ${socket.id} se conectou`)
     players.push({
                 id: socket.id,
                 char: char() 

@@ -10,13 +10,18 @@
 </head>
 <body>
     <h1>Canva game</h1>
-    <div id="screen-game">
-        <ul id="players" class="players">
-
-        </ul>
-        <canvas id="canvas" width="500" height="500"></canvas>
+    <div class="onPlayers">
+        <h2>Players online</h2>
+        <div id="players" class="players"></div>
     </div>
-    
+    <div id="players" class="players"></div>
+    <div id="screen-game">
+        <canvas id="canvas" width="500" height="500"></canvas>
+        <div class="chat">
+            <input type="text" id="chat">
+            <button onclick="message()">Enviar</button>
+        </div>
+    </div>
     <script src="/js/script.js"></script>
 </body>
 </html>
