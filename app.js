@@ -5,6 +5,7 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const { on } = require("events");
 const io = new Server(server)
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,11 +23,11 @@ const port = process.env.PORT || 3000
 function char () {
     return(
         {
-            x: Math.floor(Math.random()*401),
-            y: Math.floor(Math.random()*401),
-            width: 20,
-            height: 20,
-            speed: 20,
+            x: Math.floor(Math.random()*490),
+            y: Math.floor(Math.random()*490),
+            width: 15,
+            height: 15,
+            speed: 15,
             score: 0,
             name: 'Player',
             color: 'green'
@@ -37,8 +38,8 @@ function char () {
 function food (){
     return(
         { 
-            x: Math.floor(Math.random()*400),
-            y: Math.floor(Math.random()*400),
+            x: Math.floor(Math.random()*490),
+            y: Math.floor(Math.random()*490),
             width: 10,
             height: 10,
             color: "red"
@@ -52,6 +53,30 @@ let players = []
 io.on("connection", (socket) =>{
 
     verificarPlayer(socket)
+
+    socket.on("start", ()=>
+        io.emit("spawnFood", food() )
+    )
+
+    socket.on("getFood", id =>{
+        players.map(p =>{
+            if(p.id === id){
+                p.char.width += 5
+                p.char.height += 5
+                p.char.score += 1
+            }
+        })
+        players.map(p =>{
+            if(p.char.score === 10){
+                socket.emit("winner", p.id)
+                players.map(p =>{
+                    p.char.score = 0
+                    p.char.width = 15
+                    p.char.height = 15
+                })
+            }
+        })
+    })
 
     io.emit("players", players)
     socket.emit("players", players)
