@@ -206,10 +206,9 @@ function colisionFood() {
       p.y < f.y + f.height &&
       p.y + p.height > f.y
     ) {
-      setTimeout(() => {
-        socket.emit('start');
-      }, 1000);
+      socket.emit('start');
       getFood();
+      console.log('spawFood');
     }
   }
 }
