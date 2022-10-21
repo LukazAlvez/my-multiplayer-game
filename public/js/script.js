@@ -196,7 +196,7 @@ function control(event) {
   }
 }
 
-function colisionFood() {
+function colision() {
   if (player && food) {
     let p = player.char;
     let f = food;
@@ -206,12 +206,14 @@ function colisionFood() {
       p.y < f.y + f.height &&
       p.y + p.height > f.y
     ) {
-      socket.emit('start');
-      getFood();
-      console.log('spawFood');
+      console.log('colidio');
     }
   }
 }
+
+// socket.emit('start');
+// getFood();
+// console.log('spawFood');
 
 function getFood() {
   socket.emit('getFood', id);
