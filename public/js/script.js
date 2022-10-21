@@ -120,7 +120,11 @@ function game() {
     draw(food.x, food.y, food.width, food.height, food.color);
   }
 
-  colisionFood();
+  if (server) {
+    if (server.length > 0) {
+      colisionFood();
+    }
+  }
 
   if (player) {
     if (player.char.x < 0) {
@@ -202,7 +206,9 @@ function colisionFood() {
       p.y < f.y + f.height &&
       p.y + p.height > f.y
     ) {
-      socket.emit('start');
+      setTimeout(() => {
+        socket.emit('start');
+      }, 1000);
       getFood();
     }
   }
