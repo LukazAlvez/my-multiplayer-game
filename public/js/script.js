@@ -206,14 +206,12 @@ function colisionFood() {
       p.y < f.y + f.height &&
       p.y + p.height > f.y
     ) {
-      console.log('colidio');
+      getFood();
+      socket.emit('start');
+      return;
     }
   }
 }
-
-// socket.emit('start');
-// getFood();
-// console.log('spawFood');
 
 function getFood() {
   socket.emit('getFood', id);
