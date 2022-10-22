@@ -1,73 +1,76 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
-body{
-    background-color: #333333;
+body {
+  background-color: #333333;
 }
 
-h1{
-    text-align: center;
-    color: #eeeeee;
+h1 {
+  text-align: center;
+  color: #eeeeee;
 }
 
-#screen-game{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 10px;
+#screen-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
 }
 
-#screen-game canvas{
-    border: 1px solid #eeeeee;
-    background-color: #444444;
+#screen-game canvas {
+  border: 1px solid #eeeeee;
+  background-color: #444444;
 }
 
-.onPlayers{
-    color: #eeeeee;
-    position: absolute;
-    padding: 10px;
+.onPlayers {
+  color: #eeeeee;
+  position: absolute;
+  padding: 10px;
 }
 
-#players{
-    color: green;
-    font-size: 15px;
+.onPlayers h2 {
+  font-size: 15px;
 }
-.chat{
-    padding: 10px;
-    width: 500px;
-    display: flex;
+
+#players {
+  color: green;
+  font-size: 15px;
+}
+.chat {
+  padding: 10px;
+  width: 500px;
+  display: flex;
 }
 
 .chat input {
-    background-color: #eeeeee;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    height: 30px;
-    width: 100%;
-    padding-left: 10px;
+  background-color: #eeeeee;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  width: 100%;
+  padding-left: 10px;
 }
-.chat button{
-    background-color: lightskyblue;
-    height: 30px;
-    border: none;
-    width: 80px;
-    border-radius: 5px;
-    margin-left: 10px;
-}
-
-.controls{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #eeeeee;
+.chat button {
+  background-color: lightskyblue;
+  height: 30px;
+  border: none;
+  width: 80px;
+  border-radius: 5px;
+  margin-left: 10px;
 }
 
-.controls img{
-    width: 70px;
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #eeeeee;
+}
+
+.controls img {
+  width: 70px;
 }
