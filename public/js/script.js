@@ -206,9 +206,11 @@ function colisionFood() {
       p.y < f.y + f.height &&
       p.y + p.height > f.y
     ) {
-      getFood();
-      socket.emit('start');
-      return;
+      food = '';
+      setTimeout(() => {
+        getFood();
+        socket.emit('start');
+      }, 1000);
     }
   }
 }
