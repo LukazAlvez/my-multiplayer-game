@@ -167,6 +167,7 @@ function setFood() {
 }
 
 function getFood() {
+  food = '';
   socket.emit('getFood', player);
   setFood();
 }
@@ -181,9 +182,7 @@ function colision(player, obj, func) {
       p.y < o.y + o.height &&
       p.y + p.height > o.y
     ) {
-      setTimeout(() => {
-        func();
-      }, 1000);
+      func();
     }
   }
 }
