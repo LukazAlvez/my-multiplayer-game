@@ -105,6 +105,11 @@ const setFood = () => {
 
 const getFood = socket => {
   socket.on('getFood', player => {
+    players.map(p => {
+      if (p.id === player.id) {
+        p.score += 1;
+      }
+    });
     setFood();
   });
 };

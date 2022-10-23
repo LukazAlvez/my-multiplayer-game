@@ -156,7 +156,7 @@ function renderMessage(player) {
 function renderNames() {
   playerList.innerHTML = '';
   players.map(p => {
-    playerList.innerHTML += `<b>${p.name}</b><br>`;
+    playerList.innerHTML += `<b>${p.name} | Score: ${p.score}</b><br>`;
   });
 }
 
