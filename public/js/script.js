@@ -167,8 +167,10 @@ function setFood() {
 }
 
 function getFood() {
-  socket.emit('getFood', player);
-  setFood();
+  setTimeout(() => {
+    socket.emit('getFood', player);
+    setFood();
+  }, 1000);
 }
 
 function colision(player, obj, func) {
@@ -186,9 +188,6 @@ function colision(player, obj, func) {
   }
 }
 
-function teste() {
-  console.log('tocou');
-}
 // const chat = document.getElementById('chat');
 
 // let listPlayer = document.getElementById('players');
