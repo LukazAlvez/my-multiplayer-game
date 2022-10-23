@@ -85,6 +85,16 @@ const removePlayer = socket => {
   });
 };
 
+const getMessage = socket => {
+  socket.on('sendMessage', message => {
+    messages.push({
+      id: socket.id,
+      message: message,
+    });
+    socket.broadcast.emit('getMessage', messages);
+  });
+};
+
 server.listen(port, () => {
   console.log('Servidor online...');
 });

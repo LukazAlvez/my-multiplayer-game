@@ -22,7 +22,7 @@ h1 {
 }
 
 #screen-game canvas {
-  border: 1px solid #eeeeee;
+  border: 15px groove #eeeeee;
   background-color: #444444;
 }
 

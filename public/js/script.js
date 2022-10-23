@@ -2,6 +2,7 @@ var socket = io();
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const chat = document.getElementById('chat');
 
 document.addEventListener('keydown', control);
 
@@ -19,6 +20,7 @@ let players;
 let player;
 let playerId;
 let playerName;
+let myMessage;
 
 getName();
 
@@ -49,7 +51,7 @@ function setPlayer() {
   });
 }
 
-function render(obj, color = 'black') {
+function render(obj, color = '#222222') {
   if (obj) {
     ctx.fillStyle = color;
     ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
@@ -104,10 +106,18 @@ function control(event) {
       player.y += player.speed;
       event.preventDefault();
       break;
-    // case 13:
-    //   message();
-    //   break;
+    case 13:
+      message();
+      break;
   }
+}
+
+function message() {
+  if (chat.value === '') {
+    return;
+  }
+  socket.emit('sendMessage', chat.value);
+  chat.value = '';
 }
 
 // const chat = document.getElementById('chat');
