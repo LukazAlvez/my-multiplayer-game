@@ -3,8 +3,14 @@ var socket = io();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const chat = document.getElementById('chat');
+const playerList = document.getElementById('players');
 
 document.addEventListener('keydown', control);
+
+let players;
+let player;
+let playerId;
+let Messages = [];
 
 socket.on('setPlayers', data => {
   players = data;
@@ -16,13 +22,8 @@ socket.on('setPlayers', data => {
   });
 });
 
-let players;
-let player;
-let playerId;
-let playerName;
-let myMessage;
-
 getName();
+getMessage();
 
 setInterval(game, 60);
 
@@ -31,11 +32,13 @@ function game() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   colisionMap(player);
   setPlayer();
+  renderNames();
   //   render others player
   if (players) {
     players.map(p => {
       if (p.id !== playerId) {
         render(p);
+        renderText(p.name, '#eeeeee', p.x + p.width / 2, p.y + p.height + 10);
       }
     });
   }
@@ -53,6 +56,8 @@ function setPlayer() {
 
 function render(obj, color = '#222222') {
   if (obj) {
+    ctx.shadowBlur = 5;
+    ctx.shadowColor = '#222222';
     ctx.fillStyle = color;
     ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
   }
@@ -72,7 +77,8 @@ function colisionMap(obj) {
   }
 }
 
-function renderText(text, color, x, y, font = 'sans-serif', size = '13') {
+function renderText(text, color, x, y, font = 'sans-serif', size = '12') {
+  ctx.textAlign = 'center';
   ctx.fillStyle = color;
   ctx.font = ` ${size}px ${font}`;
   ctx.fillText(text, x, y, canvas.width);
@@ -84,7 +90,6 @@ function getName() {
     getName();
   } else {
     playerName = input;
-    console.log(playerName);
   }
 }
 
@@ -112,7 +117,7 @@ function control(event) {
   }
 }
 
-function message() {
+function sendMessage() {
   if (chat.value === '') {
     return;
   }
@@ -120,6 +125,18 @@ function message() {
   chat.value = '';
 }
 
+function getMessage() {
+  socket.on('getMessage', message => {
+    Messages = message;
+    console.log(Messages);
+  });
+}
+function renderNames() {
+  playerList.innerHTML = '';
+  players.map(p => {
+    playerList.innerHTML += `<b>${p.name}</b><br>`;
+  });
+}
 // const chat = document.getElementById('chat');
 
 // let listPlayer = document.getElementById('players');

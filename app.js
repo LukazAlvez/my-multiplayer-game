@@ -50,6 +50,7 @@ io.on('connection', socket => {
   newPlayer(socket);
   setPlayers(players);
   setPosition(socket);
+  sendMessage(socket);
 
   socket.on('disconnect', () => {
     removePlayer(socket);
@@ -65,6 +66,7 @@ const setPosition = socket => {
       if (p.id === position.id) {
         p.x = position.x;
         p.y = position.y;
+        p.name = position.name;
       }
     });
     io.emit('newPositions', players);
@@ -85,7 +87,7 @@ const removePlayer = socket => {
   });
 };
 
-const getMessage = socket => {
+const sendMessage = socket => {
   socket.on('sendMessage', message => {
     messages.push({
       id: socket.id,
