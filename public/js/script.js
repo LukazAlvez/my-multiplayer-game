@@ -10,7 +10,8 @@ document.addEventListener('keydown', control);
 let players;
 let player;
 let playerId;
-let Messages = [];
+let messages = [];
+let food;
 
 socket.on('setPlayers', data => {
   players = data;
@@ -24,7 +25,7 @@ socket.on('setPlayers', data => {
 
 getName();
 getMessage();
-
+setFood();
 setInterval(game, 60);
 
 // render =>
@@ -33,17 +34,22 @@ function game() {
   colisionMap(player);
   setPlayer();
   renderNames();
+  colision(player, food, getFood);
   //   render others player
   if (players) {
     players.map(p => {
       if (p.id !== playerId) {
         render(p);
         renderText(p.name, '#eeeeee', p.x + p.width / 2, p.y + p.height + 10);
+        renderMessage(p);
       }
     });
   }
   //   render player
   render(player, player.color);
+  // render other
+  render(food, food.color);
+  renderMessage(player);
 } //   <= render
 
 function setPlayer() {
@@ -112,7 +118,7 @@ function control(event) {
       event.preventDefault();
       break;
     case 13:
-      message();
+      sendMessage();
       break;
   }
 }
@@ -127,15 +133,61 @@ function sendMessage() {
 
 function getMessage() {
   socket.on('getMessage', message => {
-    Messages = message;
-    console.log(Messages);
+    messages = message;
   });
+}
+function renderMessage(player) {
+  if (messages) {
+    messages.map(m => {
+      if (m.id === player.id) {
+        renderText(
+          m.message,
+          '#eeeeee',
+          player.x + player.width / 2,
+          player.y - 10,
+        );
+        setTimeout(() => {
+          m.message = '';
+        }, 10000);
+      }
+    });
+  }
 }
 function renderNames() {
   playerList.innerHTML = '';
   players.map(p => {
     playerList.innerHTML += `<b>${p.name}</b><br>`;
   });
+}
+
+function setFood() {
+  socket.on('spawnFood', data => {
+    food = data;
+  });
+}
+
+function getFood() {
+  socket.emit('getFood', player);
+  setFood();
+}
+
+function colision(player, obj, func) {
+  if (player && obj) {
+    let p = player;
+    let o = obj;
+    if (
+      p.x < o.x + o.width &&
+      p.x + p.width > o.x &&
+      p.y < o.y + o.height &&
+      p.y + p.height > o.y
+    ) {
+      return func();
+    }
+  }
+}
+
+function teste() {
+  console.log('tocou');
 }
 // const chat = document.getElementById('chat');
 

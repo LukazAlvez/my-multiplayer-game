@@ -48,6 +48,8 @@ let messages = [];
 
 io.on('connection', socket => {
   newPlayer(socket);
+  setFood();
+  getFood(socket);
   setPlayers(players);
   setPosition(socket);
   sendMessage(socket);
@@ -93,7 +95,17 @@ const sendMessage = socket => {
       id: socket.id,
       message: message,
     });
-    socket.broadcast.emit('getMessage', messages);
+    io.emit('getMessage', messages);
+  });
+};
+
+const setFood = () => {
+  io.emit('spawnFood', food());
+};
+
+const getFood = socket => {
+  socket.on('getFood', player => {
+    setFood();
   });
 };
 
