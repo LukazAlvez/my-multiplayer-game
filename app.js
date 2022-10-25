@@ -96,6 +96,7 @@ const sendMessage = socket => {
       message: message,
     });
     io.emit('getMessage', messages);
+    messages = [];
   });
 };
 
